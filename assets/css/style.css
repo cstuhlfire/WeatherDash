@@ -1,0 +1,36 @@
+
+:root {
+    --lightest-grey: #f8f9f9;
+}
+
+.card-header {
+    font-weight: bold;
+}
+
+.search {
+    background-color: var(--lightest-grey);
+    padding-bottom: 25px;
+    padding-left: 35px;
+    padding-right: 30px;
+} 
+
+.details {
+    padding-left: 35px;
+}
+
+.detail-text {
+    padding-left: 25px;
+}
+
+h3 {
+    padding-bottom: 15px;
+    padding-top: 15px;
+}
+
+h6{
+    padding-bottom: 15px;
+}
+
+.forecast {
+    width: 11rem;
+}

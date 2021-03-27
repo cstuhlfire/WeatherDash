@@ -13,15 +13,115 @@
   </head>
 
   <body>
-
+    <!-- Creates header for page -->
     <header class="container-fluid bg-dark text-light mb-5 p-3">
       <div class="d-flex justify-content-center">
         <h1>Weather Dash</h1>
       </div>
     </header>
 
-    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.slim.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.1/umd/popper.min.js"></script> -->
+    <!-- Creates a fluid container to allow content to fill the page -->
+    <section class="container-fluid">
+      <div class="row">
+            <!-- Creates the left search area -->
+            <div class="col-12 col-md-4 col-xl-3 search">
+                <h3>Search for a City:</h3>
+                <div class="input-group mb-3">
+                        <input
+                            type="text"
+                            class="form-control"
+                            placeholder="City name"
+                            aria-label="City name"
+                            aria-describedby="button-addon2"/>
+                            <div class="input-group-append">
+                                <button
+                                    class="btn btn-outline-secondary"
+                                    type="button"
+                                    id="button-addon2">🔎
+                                </button>
+                            </div>
+                </div>
+
+                <!-- Creates the list of recent items under the search area -->
+                <div class="card" style="width: 20rem">
+                    <div class="card-header">Recent</div>
+                    <ul class="list-group list-group-flush">
+                    <li class="list-group-item">Cras justo odio</li>
+                    <li class="list-group-item">Dapibus ac facilisis in</li>
+                    <li class="list-group-item">Vestibulum at eros</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Creates detail area for city weather to be displayed -->
+            <div class="col-12 col-md-9 col-xl-9 details">
+                <div class="card" style="width: 65rem">
+                    <!-- <div class="card-header"></div> -->
+                    <h3 class="detail-text">City (Date) icon</h3>
+                    <h6 class="detail-text">Temperature:</h6>
+                    <h6 class="detail-text">Humidity:</h6>
+                    <h6 class="detail-text">Wind Speed:</h6>
+                    <h6 class="detail-text">UV Index:</h6>
+                </div>
+                <br>
+            
+                <!-- Creates a container to hold the 5 day forecast -->
+                <div class="container">
+                    <h3>5 Day Forecast:</h3>
+                    <div class="row">
+                        <!-- Five cards to contain the 5 day's weather forecasts -->
+                        <div class="card text-white bg-primary mx-3 forecast">
+                            <div class="card-header">Date1</div>
+                            <div class="card-body pb-5">
+                                <h5 class="card-title">Icon</h5>
+                                <p class="card-text">Temperature:</p>
+                                <p class="card-text">Humidity:</p>
+                            </div>
+                        </div>
+
+                        <div class="card text-white bg-primary mx-3 forecast">
+                            <div class="card-header">Date2</div>
+                            <div class="card-body">
+                                <h5 class="card-title">Icon</h5>
+                                <p class="card-text">Temperature:</p>
+                                <p class="card-text">Humidity:</p>
+                            </div>
+                        </div>
+
+                        <div class="card text-white bg-primary mx-3 forecast">
+                            <div class="card-header">Date3</div>
+                            <div class="card-body">
+                                <h5 class="card-title">Icon</h5>
+                                <p class="card-text">Temperature:</p>
+                                <p class="card-text">Humidity:</p>
+                            </div>
+                        </div>
+
+                        <div class="card text-white bg-primary mx-3 forecast">
+                            <div class="card-header">Date4</div>
+                            <div class="card-body">
+                                <h5 class="card-title">Icon</h5>
+                                <p class="card-text">Temperature:</p>
+                                <p class="card-text">Humidity:</p>
+                            </div>
+                        </div>
+
+                        <div class="card text-white bg-primary ml-3 forecast">
+                            <div class="card-header">Date5</div>
+                            <div class="card-body">
+                                <h5 class="card-title">Icon</h5>
+                                <p class="card-text">Temperature:</p>
+                                <p class="card-text">Humidity:</p>
+                            </div>
+                        </div>
+                    </div>
+
+            </div>
+        </div>
+    </section>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.1/umd/popper.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/js/bootstrap.min.js"></script>
     <script src="assets/js/script.js"></script>
   </body>
