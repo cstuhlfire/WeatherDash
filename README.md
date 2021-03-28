@@ -1,4 +1,4 @@
-# WeatherDash# WeatherDash
+# WeatherDash
 
 
 # Original Assignment

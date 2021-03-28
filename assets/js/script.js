@@ -1,6 +1,7 @@
 // Weather Dash
 
 // Globals
+let apiKey = "151e91eaeb0bb508a3423a19aa078cd3";
 let storageArray = "cityArray";
 let cityArray = [];
 
@@ -62,16 +63,58 @@ function storeRecentList() {
 }
 
 function clearRecentList() {
+    // Clear the recent search list
     cityArray.splice(0);
     renderRecentList();
     storeRecentList();
 }
 
-function readCityName() {
+function getForecast() {
+    let city = "dallas";
+    let apiKey = "151e91eaeb0bb508a3423a19aa078cd3";
+    let requestURL = "http://api.openweathermap.org/data/2.5/forecast?q=Dallas&units=imperial&appid=5fe5cb892e1ae36d677d3e1b6d418a17";
+
+    fetch(requestURL)
+    .then(function (response) {
+      console.log(response.status);
+      //  Response.status.
+      if (response.status !== 200) {
+        console.log("There was an error with the search. Please try again.");
+      }
+      return response.json();
+    })
+    .then(function (data) {
+      console.log(data);
+    });
+}
+
+function getCurrentWeather(city) {  
+    let requestURL = "http://api.openweathermap.org/data/2.5/weather?q="+city+"&units=imperial&appid="+apiKey;
+
+    console.log(city);
+    fetch(requestURL)
+    .then(function (response) {
+      //  Test response.status for error
+      if (response.status !== 200) {
+        alert("There was an error with the search. Please try again.");
+      }
+      return response.json();
+    })
+    .then(function (data) {
+      console.log(data.main.temp);
+    });
+}
+
+function submitCityName() {
     
-    addToCityArray(inputCityEl.value.trim());
-    renderRecentList();
-    storeRecentList();
+    if(inputCityEl.value.trim() !== ""){
+        addToCityArray(inputCityEl.value.trim());
+        renderRecentList();
+        storeRecentList();
+    
+        getCurrentWeather(inputCityEl.value.trim());
+        //getForecast();
+    }
     
     // Clear input value on screen
     inputCityEl.value = "";
@@ -79,7 +122,7 @@ function readCityName() {
 }
 
 // Event Listeners
-btnEl.addEventListener("click", readCityName);
+btnEl.addEventListener("click", submitCityName);
 clearEl.addEventListener("click", clearRecentList);
 
 

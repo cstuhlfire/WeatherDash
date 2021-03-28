@@ -42,3 +42,7 @@ h6{
     color: lightgray;
     font-style: italic;
 }
+
+li:hover {
+    background-color: var(--lightest-grey);
+}
