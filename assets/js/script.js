@@ -8,6 +8,10 @@ let cityArray = [];
 // Query Selectors
 let recentListEl = document.getElementById("recent-list");
 let clearEl = document.getElementById("clear");
+let cityDetailEl = document.getElementById("city-detail");
+let tempDetailEl = document.getElementById("temp-detail");
+let humidDetailEl = document.getElementById("humid-detail");
+let windDetailEl = document.getElementById("wind-detail");
 let btnEl = document.querySelector(".btn");
 let inputCityEl = document.querySelector(".user-city-name");
 
@@ -18,6 +22,7 @@ init();
 function init() {
     // Get recent search cities from localStorage
     let tempArray = JSON.parse(localStorage.getItem(storageArray));
+    cityArryay = []; 
 
     if (tempArray !== null) {
         cityArray = tempArray;
@@ -42,6 +47,7 @@ function addToCityArray(city) {
     cityArray.splice(8);
 }
 
+// Create list of recent searches on page
 function renderRecentList() {    
     // Clear recent list
     recentListEl.innerHTML = "";
@@ -57,14 +63,15 @@ function renderRecentList() {
     }
 }
 
+// Write recent searches in localStorage
 function storeRecentList() {
     // stringify the cityArray and store it in localStorage
     localStorage.setItem(storageArray, JSON.stringify(cityArray));
 }
 
+// Clear the recent search list
 function clearRecentList() {
-    // Clear the recent search list
-    cityArray.splice(0);
+    cityArray = [];
     renderRecentList();
     storeRecentList();
 }
@@ -88,25 +95,74 @@ function getForecast() {
     });
 }
 
+function renderDetails(weatherObject) {
+    let iconPath = "http://openweathermap.org/img/wn/" + weatherObject.icon + ".png";
+     
+    console.log(iconPath);
+    cityDetailEl.textContent = weatherObject.cityName + " (" + weatherObject.weatherDate +") "; 
+    tempDetailEl.textContent = "Temperature: " + weatherObject.temp;
+    humidDetailEl.textContent = "Humidity: " + weatherObject.humidity;
+    windDetailEl.textContent = "Wind Speed: " + weatherObject.windSpeed;
+
+    console.log(weatherObject);
+}
+
 function getCurrentWeather(city) {  
+    // Define weatherObject to store returned data
+    let weatherObject = {
+        cityName: "",
+        weatherDate: "",
+        icon: "",
+        temp: "",
+        humidity:"",
+        windSpeed: "",
+        longitude: "",
+        latitude: "",
+        uvi: "",
+    }
+    // Define URL with city and apiKey parameters
     let requestURL = "http://api.openweathermap.org/data/2.5/weather?q="+city+"&units=imperial&appid="+apiKey;
 
-    console.log(city);
+    // Fetch data
     fetch(requestURL)
     .then(function (response) {
       //  Test response.status for error
       if (response.status !== 200) {
-        alert("There was an error with the search. Please try again.");
+        alert("There was an error with the search city. Please try again.");
       }
       return response.json();
     })
     .then(function (data) {
-      console.log(data.main.temp);
+        console.log(data);
+        // If the data was returned, populate the weatherObject
+      if (data.cod === 200) {
+          // Parse the retrieved date from unix date to MM/DD/YYYY
+          let myDate = new Date(data.dt * 1000);
+          myDate = moment(myDate).format("MM/DD/YYYY");
+    
+          // Populate weatherObject with returned data
+          weatherObject.cityName = data.name;
+          weatherObject.weatherDate = myDate;
+          weatherObject.icon = data.weather[0].icon;
+          weatherObject.temp = data.main.temp + " °F";
+          weatherObject.humidity = data.main.humidity + "%";
+          weatherObject.windSpeed = data.wind.speed + " MPH";
+          weatherObject.longitude = data.coord.lon;
+          weatherObject.latitude = data.coord.lat;
+
+      }  else {
+          // If the fetch returned an error, set the cityName to the error message
+          weatherObject.cityName = data.message;
+      }
+      renderDetails(weatherObject);
+
     });
+    
+    return weatherObject;
 }
 
 function submitCityName() {
-    
+    // If the city named entered is not blank, then continue
     if(inputCityEl.value.trim() !== ""){
         addToCityArray(inputCityEl.value.trim());
         renderRecentList();

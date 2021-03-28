@@ -46,3 +46,7 @@ h6{
 li:hover {
     background-color: var(--lightest-grey);
 }
+
+#weather-icon {
+    width: 50px;
+}

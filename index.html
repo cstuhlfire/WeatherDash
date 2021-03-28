@@ -55,11 +55,11 @@
             <div class="col-12 col-md-9 col-xl-9 details">
                 <div class="card" style="width: 65rem">
                     <!-- <div class="card-header"></div> -->
-                    <h3 class="detail-text">City (Date) icon</h3>
-                    <h6 class="detail-text">Temperature:</h6>
-                    <h6 class="detail-text">Humidity:</h6>
-                    <h6 class="detail-text">Wind Speed:</h6>
-                    <h6 class="detail-text">UV Index:</h6>
+                    <h3 id="city-detail" class="detail-text">City (Date) <img id="weather-icon" src="http://openweathermap.org/img/wn/50d.png" alt="Weather icon"></h3>
+                    <h6 id="temp-detail" class="detail-text">Temperature:</h6>
+                    <h6 id="humid-detail" class="detail-text">Humidity:</h6>
+                    <h6 id="wind-detail" class="detail-text">Wind Speed:</h6>
+                    <h6 id="uvi-detail" class="detail-text">UV Index:</h6>
                 </div>
                 <br>
             
@@ -118,9 +118,14 @@
         </div>
     </section>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.slim.min.js"></script>
+    
+    <!-- External links -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.1/umd/popper.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+
+    <!-- Custom javascript -->
     <script src="./assets/js/script.js"></script>
   </body>
 </html>
