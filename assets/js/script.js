@@ -254,7 +254,7 @@ function getCurrentWeather(city) {
 
   // Define URL with city and apiKey parameters
   let requestURL =
-    "http://api.openweathermap.org/data/2.5/weather?q=" +
+    "https://api.openweathermap.org/data/2.5/weather?q=" +
     city +
     "&units=imperial&appid=" +
     apiKey;
