@@ -232,6 +232,7 @@ function getForecast() {
         for (let i = 0; i <= forecastDays; i++) {
     
              myDate = parseDate(data.daily[i].dt);
+             checkDate(myDate);
             
             forecastArray[i] = {forecastDate: myDate,
                                   icon: data.daily[i].weather[0].icon,  
@@ -308,6 +309,9 @@ function parseDate(longDate) {
     return myDate;
 }
 
+function checkDate(xDate) {
+  console.log(xDate);
+}
 
 function submitCityName() {
   // If the city named entered is not blank, then continue

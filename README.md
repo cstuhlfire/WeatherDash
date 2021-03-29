@@ -1,4 +1,18 @@
-# WeatherDash
+# 06 Server-Side APIs: Weather Dashboard
+
+## Weather Dash: Get the Weather for Your City
+
+## Description
+
+Weather Dash is a weather dashboard that displays the weather for user entered cities. Users enter a city and click search. The current weather details display along with a 5 Day Forecast. Cities are added to a list of recent searches. If the user clicks on a recently searched city, that city's weather and forecast is displayed.
+
+## Screen Image
+![A user enters city names to view the current weather and 5 Day Forecast.](./DayPlanner.png)
+
+## Links to Application and Github
+[WeatherDash](https://cstuhlfire.github.io/WeatherDash/)
+
+[Link to WeatherDash Github repository](https://github.com/cstuhlfire/WeatherDash)
 
 
 # Original Assignment
