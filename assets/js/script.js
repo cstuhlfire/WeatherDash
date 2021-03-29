@@ -202,10 +202,9 @@ function clearRecentList() {
 }
 
 function getForecast() {
-  let city = "dallas";
   let apiKey = "151e91eaeb0bb508a3423a19aa078cd3";
   let requestURL =
-    "https://api.openweathermap.org/data/2.5/onecall?lat="+weatherObject.latitude+"&lon="+weatherObject.longitude+"&exclude=minutely,hourly,alerts&units=imperial&appid="+apiKey;
+    "http://api.openweathermap.org/data/2.5/onecall?lat="+weatherObject.latitude+"&lon="+weatherObject.longitude+"&exclude=minutely,hourly,alerts&units=imperial&appid="+apiKey;
 
   fetch(requestURL)
     .then(function (response) {
@@ -254,7 +253,7 @@ function getCurrentWeather(city) {
 
   // Define URL with city and apiKey parameters
   let requestURL =
-    "https://api.openweathermap.org/data/2.5/weather?q=" +
+    "http://api.openweathermap.org/data/2.5/weather?q=" +
     city +
     "&units=imperial&appid=" +
     apiKey;
