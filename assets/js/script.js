@@ -1,6 +1,27 @@
 // Weather Dash
 
 // Globals
+let iconLookup = [
+    {openCode:"01d", uniCode:"\u2600"},
+    {openCode:"02d", uniCode:"\u26C5"},
+    {openCode:"03d", uniCode:"\u2601"},
+    {openCode:"04d", uniCode:"\u26C5"},
+    {openCode:"09d", uniCode:"\u2614"},
+    {openCode:"10d", uniCode:"\u2614"},
+    {openCode:"11d", uniCode:"\u26C8"},
+    {openCode:"13d", uniCode:"\u2744"},
+    {openCode:"50d", uniCode:"\u2602"},
+    {openCode:"01n", uniCode:"\u2600"},
+    {openCode:"02n", uniCode:"\u26C5"},
+    {openCode:"03n", uniCode:"\u2601"},
+    {openCode:"04n", uniCode:"\u26C5"},
+    {openCode:"09n", uniCode:"\u2614"},
+    {openCode:"10n", uniCode:"\u2614"},
+    {openCode:"11n", uniCode:"\u26C8"},
+    {openCode:"13n", uniCode:"\u2744"},
+    {openCode:"50n", uniCode:"\u2602"},
+]
+
 let weatherObject = {
   cityName: "",
   weatherDate: "",
@@ -82,8 +103,20 @@ function renderRecentList() {
   }
 }
 
+function weatherIconLookup(lookupCode){
+    let returnCode = "";
+
+    for (let i = 0; i < iconLookup.length; i++) {
+        if(lookupCode === iconLookup[i].openCode){
+            returnCode = iconLookup[i].uniCode;
+            return returnCode;
+        }
+    }
+    return returnCode;
+}
+
 function renderDetails() {
-  let iconCode = "\u2600";
+  let iconCode = weatherIconLookup(weatherObject.icon);
 
   if (cityArray.length > 0) {
     cityDetailEl.textContent =
@@ -104,24 +137,29 @@ function renderDetails() {
 
 function renderForecast() {
     let elementCount = cardHeaderEls.length;
+    let unicode = "";
  
     // For each forecast card, update its contents based on the forecastArray
     for (let i = 0; i < elementCount; i++) {
-        console.log(forecastArray[i].forecastDate);
         cardHeaderEls[i].textContent = forecastArray[i].forecastDate;
 
         // loop through all the children
         // query select class card-text within each card
-        console.log(cardBodyEls.length);
         let cardDetailEls = cardBodyEls[i].querySelectorAll("h5, p");
         for (let j = 0; j < cardDetailEls.length; j++) {
 
             if(cardDetailEls[j].textContent === "High:"){
                 cardDetailEls[j].textContent = "High: "+forecastArray[i].tempMax+" °F";
-            } else if (cardDetailEls[j].textContent === "Low:"){
+            } 
+            else if (cardDetailEls[j].textContent === "Low:"){
                 cardDetailEls[j].textContent = "Low: "+forecastArray[i].tempMin+" °F";
-            } else if (cardDetailEls[j].textContent === "Humidity:"){
+            } 
+            else if (cardDetailEls[j].textContent === "Humidity:"){
                 cardDetailEls[j].textContent = "Humidity: "+forecastArray[i].humidity+"%";
+            } 
+            else if (cardDetailEls[j].dataset.id === "Icon"){
+                unicode = weatherIconLookup(forecastArray[i].icon);
+                cardDetailEls[j].textContent = unicode;
             }
             
         }
@@ -199,6 +237,8 @@ function getForecast() {
 }
 
 function getCurrentWeather(city) {
+  let success = true;
+
   // Define URL with city and apiKey parameters
   let requestURL =
     "http://api.openweathermap.org/data/2.5/weather?q=" +
@@ -211,6 +251,7 @@ function getCurrentWeather(city) {
     .then(function (response) {
       //  Test response.status for error
       if (response.status !== 200) {
+        success = false;
         alert("There was an error with the search city. Please try again.");
       }
       return response.json();
@@ -235,7 +276,12 @@ function getCurrentWeather(city) {
         weatherObject.cityName = data.message;
       }
 
-      getForecast();   
+        if (success) {
+            addToCityArray(weatherObject.cityName);
+            renderRecentList();
+            storeRecentList();
+            getForecast();   
+        }
       
     });
     
@@ -249,22 +295,12 @@ function parseDate(longDate) {
     return myDate;
 }
 
-function getWeatherUpdateList(city) {
-
-    // get weather from OpenWeather API
-    getCurrentWeather(city);
-    
-    addToCityArray(city);
-    renderRecentList();
-    storeRecentList();
-
-}
 
 function submitCityName() {
   // If the city named entered is not blank, then continue
 
   if (inputCityEl.value.trim() !== "") {
-      getWeatherUpdateList(inputCityEl.value.trim());
+      getCurrentWeather(inputCityEl.value.trim());
   }
 
   // Clear input value on screen
@@ -273,7 +309,7 @@ function submitCityName() {
 }
 
 function getClickedCity(event) {
-  getWeatherUpdateList(event.target.textContent);
+  getCurrentWeather(event.target.textContent);
 
 }
 
@@ -302,25 +338,25 @@ recentListEl.addEventListener("click", getClickedCity);
 // Fetch results from weather service Current Weather***
 // Parse and store results in weather object***
 // Populate details section with results object***
-// Use data to set eather icons
+// Use data to set weather icons
 
-// Use data to set eather icons
+// Use data to set weather icons
 // Create mapping of data icon to emoji
 // Look up emoji
 
 // 5 Day Forcast
-// Use search city to build url for weather service
-// Fetch results from weather service for six days (today and 5 day forecast)
-// Parse results and store in an array of weather objects
-// Populate 5 day forecast
+// Use search city to build url for weather service***
+// Fetch results from weather service for six days (today and 5 day forecast)***
+// Parse results and store in an array of weather objects***
+// Populate 5 day forecast***
 // Use data- to set weather icons
 
-// Use search city to build url for UV index
-// Fetch UV index for search city
-// Parse results into variable
-// Add index to details
-// Change UV index background color based on value
+// Use search city to build url for UV index***
+// Fetch UV index for search city***
+// Parse results into variable***
+// Add index to details***
+// Change UV index background color based on value***
 
-// On click of recent city...
-// Capture city from recent search button
-// Fetch results from weather service ...
+// On click of recent city...***
+// Capture city from recent search button***
+// Fetch results from weather service ...***
