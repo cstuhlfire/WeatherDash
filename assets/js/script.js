@@ -204,7 +204,7 @@ function clearRecentList() {
 function getForecast() {
   let apiKey = "151e91eaeb0bb508a3423a19aa078cd3";
   let requestURL =
-    "http://api.openweathermap.org/data/2.5/onecall?lat="+weatherObject.latitude+"&lon="+weatherObject.longitude+"&exclude=minutely,hourly,alerts&units=imperial&appid="+apiKey;
+    "https://api.openweathermap.org/data/2.5/onecall?lat="+weatherObject.latitude+"&lon="+weatherObject.longitude+"&exclude=minutely,hourly,alerts&units=imperial&appid="+apiKey;
 
   fetch(requestURL)
     .then(function (response) {
@@ -231,7 +231,6 @@ function getForecast() {
         for (let i = 0; i <= forecastDays; i++) {
     
              myDate = parseDate(data.daily[i].dt);
-             checkDate(myDate);
             
             forecastArray[i] = {forecastDate: myDate,
                                   icon: data.daily[i].weather[0].icon,  
@@ -253,7 +252,7 @@ function getCurrentWeather(city) {
 
   // Define URL with city and apiKey parameters
   let requestURL =
-    "http://api.openweathermap.org/data/2.5/weather?q=" +
+    "https://api.openweathermap.org/data/2.5/weather?q=" +
     city +
     "&units=imperial&appid=" +
     apiKey;
@@ -306,10 +305,6 @@ function parseDate(longDate) {
     myDate = moment(myDate).format("MM/DD/YYYY");
 
     return myDate;
-}
-
-function checkDate(xDate) {
-  console.log(xDate);
 }
 
 function submitCityName() {
