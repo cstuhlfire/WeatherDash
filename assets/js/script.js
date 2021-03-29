@@ -148,13 +148,13 @@ function renderForecast() {
         let cardDetailEls = cardBodyEls[i].querySelectorAll("h5, p");
         for (let j = 0; j < cardDetailEls.length; j++) {
 
-            if(cardDetailEls[j].textContent === "High:"){
+            if(cardDetailEls[j].dataset.id === "High"){
                 cardDetailEls[j].textContent = "High: "+forecastArray[i].tempMax+" °F";
             } 
-            else if (cardDetailEls[j].textContent === "Low:"){
+            else if (cardDetailEls[j].dataset.id === "Low"){
                 cardDetailEls[j].textContent = "Low: "+forecastArray[i].tempMin+" °F";
             } 
-            else if (cardDetailEls[j].textContent === "Humidity:"){
+            else if (cardDetailEls[j].dataset.id === "Humidity"){
                 cardDetailEls[j].textContent = "Humidity: "+forecastArray[i].humidity+"%";
             } 
             else if (cardDetailEls[j].dataset.id === "Icon"){
@@ -216,9 +216,22 @@ function getForecast() {
       return response.json();
     })
     .then(function (data) {
+        // Get current weather
+        //console.log(data);
+        let myDate = parseDate(data.current.dt);
+  
+        weatherObject.weatherDate = myDate;
+        weatherObject.icon = data.current.weather[0].icon;
+        weatherObject.temp = data.current.temp + " °F";
+        weatherObject.humidity = data.current.humidity + "%";
+        weatherObject.windSpeed = data.current.wind_speed + " MPH";
+  
+        weatherObject.uvi = data.current.uvi;
+
+        // Get the forecast
         for (let i = 0; i <= forecastDays; i++) {
     
-            let myDate = parseDate(data.daily[i].dt);
+             myDate = parseDate(data.daily[i].dt);
             
             forecastArray[i] = {forecastDate: myDate,
                                   icon: data.daily[i].weather[0].icon,  
@@ -227,10 +240,9 @@ function getForecast() {
                                   humidity: data.daily[i].humidity};
         }
  
+     // console.log(forecastArray);
 
-      // console.log(forecastArray);
-      //populate weatherObject with uvi and render city details
-      weatherObject.uvi = data.current.uvi;
+      // render city details
       renderDetails();
       renderForecast();
     });
@@ -264,13 +276,14 @@ function getCurrentWeather(city) {
 
         // Populate weatherObject with returned data
         weatherObject.cityName = data.name;
-        weatherObject.weatherDate = myDate;
-        weatherObject.icon = data.weather[0].icon;
-        weatherObject.temp = data.main.temp + " °F";
-        weatherObject.humidity = data.main.humidity + "%";
-        weatherObject.windSpeed = data.wind.speed + " MPH";
         weatherObject.longitude = data.coord.lon;
         weatherObject.latitude = data.coord.lat;
+
+        // weatherObject.weatherDate = myDate;
+        // weatherObject.icon = data.weather[0].icon;
+        // weatherObject.temp = data.main.temp + " °F";
+        // weatherObject.humidity = data.main.humidity + "%";
+        // weatherObject.windSpeed = data.wind.speed + " MPH";
       } else {
         // If the fetch returned an error, set the cityName to the error message
         weatherObject.cityName = data.message;
@@ -338,18 +351,18 @@ recentListEl.addEventListener("click", getClickedCity);
 // Fetch results from weather service Current Weather***
 // Parse and store results in weather object***
 // Populate details section with results object***
-// Use data to set weather icons
+// Use data to set weather icons***
 
-// Use data to set weather icons
-// Create mapping of data icon to emoji
-// Look up emoji
+// Use data to set weather icons***
+// Create mapping of data icon to emoji***
+// Look up emoji***
 
 // 5 Day Forcast
 // Use search city to build url for weather service***
 // Fetch results from weather service for six days (today and 5 day forecast)***
 // Parse results and store in an array of weather objects***
 // Populate 5 day forecast***
-// Use data- to set weather icons
+// Use data- to set weather icons***
 
 // Use search city to build url for UV index***
 // Fetch UV index for search city***
