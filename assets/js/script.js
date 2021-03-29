@@ -14,6 +14,7 @@ let weatherObject = {
 };
 
 let forecastArray = [];
+let forecastDays = 5;
 
 let apiKey = "151e91eaeb0bb508a3423a19aa078cd3";
 let storageArray = "cityArray"; // For local storage
@@ -29,6 +30,9 @@ let windDetailEl = document.getElementById("wind-detail");
 let uviDetailEl = document.getElementById("uvi-detail");
 let btnEl = document.querySelector(".btn");
 let inputCityEl = document.querySelector(".user-city-name");
+let forecastEl = document.querySelector("#forecast");
+let cardHeaderEls = forecastEl.querySelectorAll(".card-header");
+let cardBodyEls = forecastEl.querySelectorAll(".card-body");
 
 // Function calls
 init();
@@ -98,6 +102,32 @@ function renderDetails() {
   }
 }
 
+function renderForecast() {
+    let elementCount = cardHeaderEls.length;
+ 
+    // For each forecast card, update its contents based on the forecastArray
+    for (let i = 0; i < elementCount; i++) {
+        console.log(forecastArray[i].forecastDate);
+        cardHeaderEls[i].textContent = forecastArray[i].forecastDate;
+
+        // loop through all the children
+        // query select class card-text within each card
+        console.log(cardBodyEls.length);
+        let cardDetailEls = cardBodyEls[i].querySelectorAll("h5, p");
+        for (let j = 0; j < cardDetailEls.length; j++) {
+
+            if(cardDetailEls[j].textContent === "High:"){
+                cardDetailEls[j].textContent = "High: "+forecastArray[i].tempMax+" °F";
+            } else if (cardDetailEls[j].textContent === "Low:"){
+                cardDetailEls[j].textContent = "Low: "+forecastArray[i].tempMin+" °F";
+            } else if (cardDetailEls[j].textContent === "Humidity:"){
+                cardDetailEls[j].textContent = "Humidity: "+forecastArray[i].humidity+"%";
+            }
+            
+        }
+    }
+}
+
 function setUviStyle() {
     // remove all UV index classes
     uviDetailEl.classList.remove("low-highlight", "medium-low", "medium-high", "high", "very-high");
@@ -148,11 +178,23 @@ function getForecast() {
       return response.json();
     })
     .then(function (data) {
-      console.log(data);
+        for (let i = 0; i <= forecastDays; i++) {
+    
+            let myDate = parseDate(data.daily[i].dt);
+            
+            forecastArray[i] = {forecastDate: myDate,
+                                  icon: data.daily[i].weather[0].icon,  
+                                  tempMin: data.daily[i].temp.min, 
+                                  tempMax: data.daily[i].temp.max,
+                                  humidity: data.daily[i].humidity};
+        }
+ 
 
+      // console.log(forecastArray);
       //populate weatherObject with uvi and render city details
       weatherObject.uvi = data.current.uvi;
       renderDetails();
+      renderForecast();
     });
 }
 
@@ -177,8 +219,7 @@ function getCurrentWeather(city) {
       // If the data was returned, populate the weatherObject
       if (data.cod === 200) {
         // Parse the retrieved date from unix date to MM/DD/YYYY
-        let myDate = new Date(data.dt * 1000);
-        myDate = moment(myDate).format("MM/DD/YYYY");
+        let myDate = parseDate(data.dt);
 
         // Populate weatherObject with returned data
         weatherObject.cityName = data.name;
@@ -199,6 +240,13 @@ function getCurrentWeather(city) {
     });
     
   return;
+}
+
+function parseDate(longDate) {
+    let myDate = new Date(longDate * 1000);
+    myDate = moment(myDate).format("MM/DD/YYYY");
+
+    return myDate;
 }
 
 function getWeatherUpdateList(city) {
