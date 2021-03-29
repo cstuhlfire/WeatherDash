@@ -13,6 +13,7 @@
     padding-right: 30px;
 } 
 
+
 .details {
     padding-left: 35px;
 }
@@ -45,8 +46,29 @@ h6{
 
 li:hover {
     background-color: var(--lightest-grey);
+    cursor: pointer;
 }
 
-#weather-icon {
-    width: 50px;
+mark {
+    background-color: white;
+}
+
+.low-highlight {
+    background-color: lightgreen;
+}
+
+.medium-low {
+    background-color: yellow;
+}
+
+.medium-high {
+    background-color: orange;
+}
+
+.high {
+    background-color: red;
+}
+
+.very-high {
+    background-color: violet;
 }
